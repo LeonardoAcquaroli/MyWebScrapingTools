@@ -11,26 +11,25 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-def init_driver(executable_path, headless=True, loglevel3=True, no_img=True):
-    #### options
-    chrome_options = Options()
-    if headless == True:
-        chrome_options.add_argument('--headless')
-    if loglevel3 == True:
-        chrome_options.add_argument('log-level=3')
-    if no_img == True:
-        chrome_options.add_argument('--blink-settings=imagesEnabled=false')
-    #### service
-    chrome_service = webdriver.ChromeService(executable_path=executable_path)
-    #### webdriver
-    driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
-    return driver
-
 class MyWsTools():
     
     # Initialization arguments
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, chromedriver_executable_path):
+        def init_driver(executable_path=chromedriver_executable_path, headless=True, loglevel3=True, no_img=True):
+            #### options
+            chrome_options = Options()
+            if headless == True:
+                chrome_options.add_argument('--headless')
+            if loglevel3 == True:
+                chrome_options.add_argument('log-level=3')
+            if no_img == True:
+                chrome_options.add_argument('--blink-settings=imagesEnabled=false')
+            #### service
+            chrome_service = webdriver.ChromeService(executable_path=executable_path)
+            #### webdriver
+            driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
+            return driver
+        self.driver = init_driver()
 
     def cookies_handler(self, xpath: str):
         accept_button = WebDriverWait(self.driver,3).until(
