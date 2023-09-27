@@ -8,5 +8,6 @@ def import_MyWebScrapingTools():
   loader = importlib.machinery.SourceFileLoader('module_name', 'MyWebscrapingTools.py')
   module = loader.load_module()
   return module
-  
-import_MyWebScrapingTools.py()
+
+print('prova')
+import_MyWebScrapingTools()
