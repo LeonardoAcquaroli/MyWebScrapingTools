@@ -1,4 +1,4 @@
-def init_driver():
+def import_MyWebScrapingTools():
   import importlib.machinery
   import requests
   # Fetch the raw content of the .py file.
@@ -8,3 +8,5 @@ def init_driver():
   loader = importlib.machinery.SourceFileLoader('module_name', 'MyWebscrapingTools.py')
   module = loader.load_module()
   return module
+  
+import_MyWebScrapingTools.py()
