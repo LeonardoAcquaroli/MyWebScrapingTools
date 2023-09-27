@@ -9,6 +9,4 @@ def import_MyWebScrapingTools():
   module = loader.load_module()
   return module
   
-if __name__ == "__main__":
-  print('prova')
-  import_MyWebScrapingTools()
+import_MyWebScrapingTools()
