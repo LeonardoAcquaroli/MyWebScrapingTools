@@ -1,28 +1,22 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-import time
-import re
-import pandas as pd
-import numpy as np
-from tqdm import tqdm
 
 class MyWsTools():
     
     # Initialization arguments
-    def __init__(self, chromedriver_executable_path):
-        def init_driver(executable_path=chromedriver_executable_path, headless=True, loglevel3=True, no_img=True):
+    def __init__(self, chromedriver_executable_path, driver_headless=True, driver_loglevel3=True, driver_noImg=True):
+        def init_driver(executable_path=chromedriver_executable_path):
             #### options
             chrome_options = Options()
-            if headless == True:
+            if driver_headless == True:
                 chrome_options.add_argument('--headless')
-            if loglevel3 == True:
+            if driver_loglevel3 == True:
                 chrome_options.add_argument('log-level=3')
-            if no_img == True:
+            if driver_noImg == True:
                 chrome_options.add_argument('--blink-settings=imagesEnabled=false')
             #### service
             chrome_service = webdriver.ChromeService(executable_path=executable_path)
