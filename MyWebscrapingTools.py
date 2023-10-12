@@ -321,4 +321,3 @@ class MyWsTools():
 
     #EMAIL REGEX
     EMAIL_REGEX = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
->>>>>>> 1fcee443c4aab1ffdd4b22c0edc94447b4209a60
