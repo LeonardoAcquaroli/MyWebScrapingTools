@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import shutil
-from typing import List, Union
+from typing import Union
 
 class Driver():
     def __init__(self):
@@ -10,7 +10,9 @@ class Driver():
     def init_driver(self,
                     headless: bool = True,
                     log_level: Union[int, str] = 3,
-                    load_images: bool = False):
+                    load_images: bool = False,
+                    language: str = None,
+                    usear_agent_spoof: bool = True) -> webdriver.Chrome:
         # validate log_level
         allowed = {0, 1, 2, 3, "0", "1", "2", "3"}
         if log_level not in allowed:
@@ -21,8 +23,18 @@ class Driver():
         chrome_options = Options()
         if headless:
             chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--window-size=1600,1400')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+            chrome_options.add_argument('--disable-infobars')
         chrome_options.add_argument(f'log-level={log_level}')
         chrome_options.add_argument(f'--blink-settings=imagesEnabled={"true" if load_images else "false"}')
+        chrome_options.add_argument(f'--lang={language}')
+        # User-Agent spoof basico
+        if usear_agent_spoof:
+            chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36')chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36')
 
         chrome_service = webdriver.ChromeService(executable_path=self.get_chromedriver_path())
         driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
