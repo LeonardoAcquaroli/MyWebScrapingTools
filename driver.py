@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import shutil
 from typing import Union
 
@@ -34,14 +36,17 @@ class Driver():
         chrome_options.add_argument(f'--lang={language}')
         # User-Agent spoof basico
         if usear_agent_spoof:
-            chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36')chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36')
+            chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36')
 
-        chrome_service = webdriver.ChromeService(executable_path=self.get_chromedriver_path())
-        driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
+        driver = webdriver.Chrome(service=Service(self.get_chromedriver_path()), options=chrome_options)
         return driver
 
     def get_chromedriver_path(self):
         chromedriver_path = shutil.which("chromedriver")
-        if chromedriver_path is None:
-            raise FileNotFoundError("Chromedriver not found. Please ensure it is installed and in your system PATH.")
-        return chromedriver_path
+        if chromedriver_path:
+            return chromedriver_path
+        # Auto download
+        try:
+            return ChromeDriverManager().install()
+        except Exception as e:
+            raise FileNotFoundError(f"Failed to locate or download chromedriver: {e}")
